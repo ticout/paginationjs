@@ -1,0 +1,21 @@
+Create a class js named pagination.
+Create a page () method to get the number of pages.
+In the page () method, determine the number of items per page.
+Calculate the number of pages.
+Create one button per page
+each page button a function associated with the click event
+Assign a current_page class on page 1
+Create a method to display each item.
+Create a method to sort items by page
+Get the current page (current_page)
+Determine the starting item.
+Determine the end item
+Delete items that may exist
+Launch the method to display each item.
+Instantiate the pagination object with an indexed data object
+Launch the page method of the instantiated object.
+Start the method that sorts the items
+
+When clicking, the called function must contain
+a function that deletes the entire list
+and the method of the inctancied object which sorts the items of the current page.
