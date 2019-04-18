@@ -1,0 +1,67 @@
+   class PaginationArticle{
+        constructor (articles){
+            this.articles=articles;
+            //on détermine le nombre d'item à afficher
+            this.itemPerPage = 1;
+        }
+        pages(){
+            //on détermine le nombre de page 
+            let page=Math.ceil(this.articles.length/this.itemPerPage);
+            //on crée les numéros de pages dans la section prévu
+            var sectionPage = document.getElementById('pages');
+            var p=1;
+            while (p<=page){
+                sectionPage.insertAdjacentHTML('beforeend', '<button value='+p+' id='+p+' class= "page" onClick="changementPage(this.value)">'+p+'</button>');
+                p++;
+                document.getElementById('1').classList.add('pageActive');
+            }
+        }
+        getArticle(art){
+                //Sélection de la section ou créer les articles
+            const projet = document.getElementById('projets');
+                //création de l'article
+            let article = document.createElement("article");
+                //création d'un lien pour consulter l'article complet
+            var lien = document.createElement('a');
+            lien.href = `canevas/post?topic=`;
+                //titre de l'article
+            var newTitle = document.createElement("h1");
+            newTitle.textContent=art['titre'];
+                //paragraphe de l'article
+            var newparagraphe = document.createElement("p");
+                //footer qui prendra les fonticones et la localisation de l'article
+            let newfooter = document.createElement("footer");
+            newfooter.textContent = art['ville']+' '+art['departement'];
+            newparagraphe.textContent=art['description'];
+            projet.appendChild(article);
+            article.appendChild(newTitle);
+            article.appendChild(newparagraphe);
+            article.appendChild(newfooter);
+                //ajout de l'icone pour tous les articles ayant le caractère urgent
+            if(art['importance']==1){
+                var urgent = document.createElement("span");
+                urgent.setAttribute('class', 'urgent');
+                newTitle.appendChild(urgent);
+                urgent.innerHTML = '<i class="far fa-bookmark"></i>';
+            }
+                //icone permettant la vue ou l'ajout au classeur à la fin de l'article
+            article.insertAdjacentHTML('beforeend','<ul><li><a href=canevas/post?topic='+art['id_projet']+'><i class="fas fa-eye"></i></a></li> <li><i class="fas fa-folder-plus" onclick="save('+art['id_projet']+')"></i></li> <li><i class="fas fa-share-alt"></i></li></ul>' );
+        }
+        getTopic(){
+            var currentPage = document.getElementsByClassName('pageActive')[0].value;
+            for(var n = currentPage*this.itemPerPage-this.itemPerPage; n < currentPage*this.itemPerPage; n++){
+                this.getArticle(this.articles[n]);
+            }
+        }
+        activPage(page){
+            var i=0;
+            pages = document.getElementsByClassName('page');
+            while(i<pages.length){
+                pages[i].classList.remove('pageActive');
+                i++;
+            }
+            document.getElementById(page).classList.add('pageActive');
+            nettoie(document.getElementById('projets'));
+            this.getTopic();
+        }
+    }
